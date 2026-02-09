@@ -19,15 +19,15 @@ import {
 import { TASKS_APP_URL } from '@/utils/constants'
 import { encodePayload } from '@/utils/crypto'
 import { withRetry } from '@/utils/withRetry'
-import type { CopilotAPI as SDK } from 'copilot-node-sdk'
-import { copilotApi } from 'copilot-node-sdk'
+import type { AssemblyAPI as SDK } from '@assembly-js/node-sdk'
+import { assemblyApi } from '@assembly-js/node-sdk'
 import { z } from 'zod'
 
 export class CopilotAPI {
   copilot: SDK
 
   constructor(private readonly token: string) {
-    this.copilot = copilotApi({ apiKey: copilotAPIKey, token })
+    this.copilot = assemblyApi({ apiKey: copilotAPIKey, token })
   }
 
   async _me(): Promise<MeResponse | null> {
@@ -78,7 +78,7 @@ export class CopilotAPI {
 
   async _getCustomFields(): Promise<CustomFieldResponse> {
     return CustomFieldResponseSchema.parse(
-      await this.copilot.listCustomFields(),
+      await this.copilot.listCustomFields({}),
     )
   }
 
