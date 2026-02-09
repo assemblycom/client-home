@@ -6,6 +6,7 @@ import { prepareCustomLabel } from '@/utils/customLabels'
 import { getPreviewMode } from '@/utils/previewMode'
 import { safeCompile } from '@/utils/safeCompile'
 import { preprocessTemplate } from '@/utils/string'
+import Head from 'next/head'
 import Image from 'next/image'
 import { z } from 'zod'
 import { defaultState } from '../../../defaultState'
@@ -69,9 +70,9 @@ async function getCustomFields(token: string) {
 export default async function ClientPreviewPage({
   searchParams,
 }: {
-  searchParams: { token: string }
+  searchParams: Promise<{ token: string }>
 }) {
-  const tokenParsed = z.string().safeParse(searchParams.token)
+  const tokenParsed = z.string().safeParse((await searchParams).token)
   if (!tokenParsed.success) {
     return <InvalidToken />
   }
@@ -111,7 +112,7 @@ export default async function ClientPreviewPage({
   const [defaultSetting, allCustomFields, _client, workspace] =
     await Promise.all([
       getSettings(token),
-      getCustomFields(searchParams.token),
+      getCustomFields(token),
       getClient(clientId.data, token),
       copilotClient.getWorkspaceInfo(),
     ])
@@ -180,12 +181,12 @@ export default async function ClientPreviewPage({
 
   return (
     <>
-      <head>
+      <Head>
         <link
           href={`https://fonts.googleapis.com/css2?family=${workspace.font}&display=swap`}
           rel='stylesheet'
         />
-      </head>
+      </Head>
       <div
         className={`overflow-y-auto overflow-x-hidden max-h-screen w-full`}
         style={{
@@ -218,7 +219,7 @@ export default async function ClientPreviewPage({
           <ClientPreview
             content={htmlContent}
             settings={settings}
-            token={searchParams.token}
+            token={token}
             font={workspace.font}
             labels={workspace.labels}
           />

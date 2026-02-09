@@ -10,6 +10,7 @@ import {
 } from '@/types/common'
 import { IClient, ICustomField } from '@/types/interfaces'
 import { CopilotAPI } from '@/utils/copilotApiUtils'
+import Head from 'next/head'
 import { z } from 'zod'
 
 export const revalidate = 0
@@ -59,9 +60,9 @@ async function getSettings(token: string) {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { token: string }
+  searchParams: Promise<{ token: string }>
 }) {
-  const tokenParsed = z.string().safeParse(searchParams.token)
+  const tokenParsed = z.string().safeParse((await searchParams).token)
   if (!tokenParsed.success) {
     return <InvalidToken />
   }
@@ -88,12 +89,12 @@ export default async function Page({
 
   return (
     <>
-      <head>
+      <Head>
         <link
           href={`https://fonts.googleapis.com/css2?family=${workspace.font}&display=swap`}
           rel='stylesheet'
         />
-      </head>
+      </Head>
       <div style={{ fontFamily: workspace.font.replaceAll('+', ' ') }}>
         <div className='flex flex-row'>
           <div className='relative w-full'>

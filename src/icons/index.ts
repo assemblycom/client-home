@@ -1,4 +1,6 @@
-export type SVGIcon = React.FC<React.SVGProps<SVGSVGElement>>
+import type { FC, SVGProps } from 'react'
+
+export type SVGIcon = FC<SVGProps<SVGSVGElement>>
 
 export { default as SelectArrowIcon } from './select-arrow.svg'
 export { default as PlusIcon } from './plus.svg'
