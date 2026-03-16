@@ -70,6 +70,7 @@ interface IEditorInterface {
   token: string
   font: string
   customLabels?: CustomLabels
+  pauseUpdates?: boolean
 }
 
 const EditorInterface = ({
@@ -77,6 +78,7 @@ const EditorInterface = ({
   token,
   font,
   customLabels,
+  pauseUpdates,
 }: IEditorInterface) => {
   const appState = useAppState()
 
@@ -341,6 +343,7 @@ const EditorInterface = ({
         appState?.setToken(token)
         appState?.setFont(font)
         appState?.setCustomLabels(customLabels)
+        appState?.setPauseUpdates(!!pauseUpdates)
       }
       appState?.setLoading(false)
     })()

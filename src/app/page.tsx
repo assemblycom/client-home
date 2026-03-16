@@ -2,7 +2,7 @@ import EditorInterface from '@/app/components/EditorInterface'
 import InvalidToken from '@/app/components/InvalidToken'
 import SideBarInterface from '@/app/components/SideBarInterface'
 import NotificationsModal from '@/components/NotificationsModal'
-import { apiUrl } from '@/config'
+import { apiUrl, pauseUpdates } from '@/config'
 import {
   ClientsResponseSchema,
   CompanyResponse,
@@ -102,6 +102,7 @@ export default async function Page({
               token={token}
               font={workspace.font}
               customLabels={labels}
+              pauseUpdates={pauseUpdates}
             />
           </div>
           <div
