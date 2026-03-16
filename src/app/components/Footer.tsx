@@ -174,6 +174,26 @@ export const Footer = () => {
     return () => clearTimeout(t)
   }, [])
 
+  if (appState?.appState.pauseUpdates && appState?.appState.changesCreated) {
+    return (
+      <div
+        className='w-full flex flex-col items-center gap-1 py-4 px-6 fixed bottom-0 bg-white border-t border-slate-300'
+        style={{
+          fontFamily: getFont(appState),
+        }}
+      >
+        <p className='text-[13px] text-new-dark font-semibold'>
+          Client Home is currently under maintenance - you will not be able to
+          make any changes to your content or settings in the meanwhile.
+        </p>
+        <p className='text-[13px] text-new-dark'>
+          Clients will be able to view the Client Home content as usual without
+          any interruptions during this time.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <When
       condition={
