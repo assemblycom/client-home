@@ -37,6 +37,7 @@ export interface IAppState {
   tasks?: number
   customLabels?: CustomLabels
   brandName?: string
+  pauseUpdates?: boolean
 }
 
 export interface IAppContext {
@@ -66,6 +67,7 @@ export interface IAppContext {
   setTasks: (tasks: number) => void
   setCustomLabels: (customLabels?: CustomLabels) => void
   setBrandName: (brandName?: string | null) => void
+  setPauseUpdates: (v: boolean) => void
   /* eslint-enable no-unused-vars */
 }
 
@@ -103,6 +105,7 @@ export const AppContextProvider: FC<IAppCoreProvider> = ({ children }) => {
     tasks: undefined,
     customLabels: undefined,
     brandName: '',
+    pauseUpdates: false,
   })
 
   useEffect(() => {
@@ -210,6 +213,10 @@ export const AppContextProvider: FC<IAppCoreProvider> = ({ children }) => {
     setState((prev) => ({ ...prev, brandName: brandName || '' }))
   }
 
+  const setPauseUpdates = (v: boolean) => {
+    setState((prev) => ({ ...prev, pauseUpdates: v }))
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -238,6 +245,7 @@ export const AppContextProvider: FC<IAppCoreProvider> = ({ children }) => {
         setTasks,
         setCustomLabels,
         setBrandName,
+        setPauseUpdates,
       }}
     >
       <AppDataProvider>{children}</AppDataProvider>
