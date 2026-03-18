@@ -1,5 +1,5 @@
 export const getTokenWithRetry = async (
-  maxRetries = 3,
+  maxRetries = 5,
   delayMs = 250,
 ): Promise<string | null> => {
   if (typeof document === 'undefined') {
@@ -8,6 +8,8 @@ export const getTokenWithRetry = async (
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     const token = new URLSearchParams(document.location?.search).get('token')
+    console.info(`Attempt ${attempt} to get token: ${token}`)
+
     if (token) {
       return token
     }
