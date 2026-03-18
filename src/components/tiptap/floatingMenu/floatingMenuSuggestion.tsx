@@ -5,6 +5,8 @@ import { FloatingMenu } from './FloatingMenu'
 import { TiptapEditorUtils } from '@/utils/tiptapEditorUtils'
 import { ImagePickerUtils } from '@/utils/imagePickerUtils'
 import { handleBannerImageUpload } from '@/utils/handleBannerImageUpload'
+import { calculateFileSize } from '@/utils/calculateFileSize'
+import toast from 'react-hot-toast'
 
 export const floatingMenuSuggestion = {
   items: ({ query }: any) => {
@@ -76,7 +78,16 @@ export const floatingMenuSuggestion = {
             'token',
           )
           if (file && token) {
+            // file size validation
+            const size = calculateFileSize(file)
+            if (size > 4.5) {
+              toast.error('File size is too large!')
+              return
+            }
+
             const data = await handleBannerImageUpload(file, token)
+            if (!data) toast.error('Something went wrong while uploading file')
+
             if (data.contentType === 'application/pdf') {
               tiptapEditorUtils.insertPdf(data.filename, data.url)
             } else {
