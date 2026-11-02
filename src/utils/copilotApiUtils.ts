@@ -78,7 +78,7 @@ export class CopilotAPI {
 
   async _getCustomFields(): Promise<CustomFieldResponse> {
     return CustomFieldResponseSchema.parse(
-      await this.copilot.listCustomFields(),
+      await this.copilot.listCustomFields({}),
     )
   }
 
